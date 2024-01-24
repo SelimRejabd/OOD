@@ -1,89 +1,71 @@
+import java.util.ArrayList;
+import java.util.List;
 
-interface Train {
-    void train();
-}
+abstract class Pet {
+    private String name;
 
-interface Sound {
-    void makeSound();
-}
-
-class Pet {
-    String name;
-
-    Pet(String name) {
+    public Pet(String name) {
         this.name = name;
     }
 
-    void feed() {
-        System.out.println(name + " is being fed.");
-    }
-
-    void sleep() {
-        System.out.println(name + " is sleeping.");
+    public String getName() {
+        return name;
     }
 }
 
-class Dog extends Pet implements Train, Sound {
-    Dog(String name) {
+class Cat extends Pet {
+    public Cat(String name) {
         super(name);
-    }
-
-    @Override
-    public void train() {
-        System.out.println(name + " is being trained.");
-    }
-
-    @Override
-    public void makeSound() {
-        System.out.println(name + " says woof!");
     }
 }
 
-class Cat extends Pet implements Sound {
-    Cat(String name) {
+class Dog extends Pet {
+    public Dog(String name) {
         super(name);
     }
-    public void train() {
-        System.out.println(name + "is being trained.");
-    }
-    @Override
-    public void makeSound() {
-        System.out.println(name + " says meow!");
-    }
+
 }
 
-class Rabbit extends Pet implements Train {
-    Rabbit(String name){
-        super(name);
+interface Petmanage {
+    void addPet(Pet pet);
+
+    void removePet(Pet pet);
+
+    void listPet();
+}
+
+class Petmanager implements Petmanage {
+    private List<Pet> pets = new ArrayList<>();
+
+    public void addPet(Pet pet) {
+        pets.add(pet);
     }
 
-    public void train(){
-        System.out.println(name + " is being trained.");
+    public void removePet(Pet pet) {
+        pets.remove(pet);  
     }
 
+    public void listPet() {
+        System.out.println("List of Pets:");
+        for (Pet pet : pets){
+            System.out.println(pet.getName());
+        }
+    }
 }
 
 public class PetManagement {
-    public static void main(String[] args) {
-        Dog dog = new Dog("Bond");
+    public static void main(String args []){
+        Petmanager management = new Petmanager();
+
+        //creating dogs
+        Pet dog1=new Dog("Wishkey");
+        Pet cat1=new Cat("biral");
+
+        management.addPet(dog1);
+        management.addPet(cat1);
         
-        Cat cat = new Cat("Whisky");
-
-        Rabbit rabbit = new Rabbit("Fin");
-
-
-
-        dog.feed();
-        dog.train();
-        dog.makeSound();
-        dog.sleep();
-
-        cat.feed();
-        cat.sleep();
-        cat.train();
-        cat.makeSound();
-
-        rabbit.train();
-        rabbit.sleep();
+        management.listPet();
+        management.removePet(cat1);
+        management.listPet();
     }
 }
